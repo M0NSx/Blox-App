@@ -1,0 +1,38 @@
+{
+    "Home": {
+        "h1": "メインページ"
+    },
+    "AuthErrorMessages": {
+        "EmailRequired": "メールアドレスまたはユーザー名は必須です。",
+        "EmailMinimum": "メールアドレスまたはユーザー名は必須です。",
+        "InvalidEmail": "無効なメールアドレスです。",
+        "UsernameMinimum": "ユーザー名は必須です。",
+        "UsernameMaximum": "ユーザー名は長すぎます。",
+        "PasswordMinimum": "パスワードは必須です。",
+        "PasswordMaximum": "パスワードは長すぎます。",
+        "InvalidPassword": "無効なパスワードです。",
+        "specialCharacters": "ユーザー名は文字と数字のみにしてください。",
+        "AcceptTerms": "利用規約に同意してください。",
+        "UnknownError": "不明なエラーです。"
+    },
+    "AboutPage": {
+        "h1": "このページについて"
+    },
+    "SignInPage": {
+        "h1": "サインイン",
+        "button": "サインイン",
+        "text": "アカウントがありませんか？",
+        "signinwith": "次のアカウントでサインイン",
+        "withgoogle": "Google でサインイン",
+        "withroblox": "ロブテックス でサインイン",
+        "withdiscord": "Discord でサインイン"
+    },
+    "SignUpPage": {
+        "h1": "サインアップ",
+        "CreateBtn": "サインアップ",
+        "TextLinkToSignIn": "アカウントがありませんか？",
+        "SpanSignIn": "サインイン",
+        "pTerms": "承認",
+        "LinkToTerms": "利用規約"
+    }
+}

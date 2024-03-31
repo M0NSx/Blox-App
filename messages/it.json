@@ -1,0 +1,38 @@
+{
+    "Home": {
+        "h1": "Pagina Principale"
+    },
+    "AuthErrorMessages": {
+        "EmailRequired": "L'e-mail è obbligatoria",
+        "EmailMinimum": "L'e-mail o l'username è obbligatoria",
+        "InvalidEmail": "L'e-mail non è valido",
+        "UsernameMinimum": "L'username è obbligatoria",
+        "UsernameMaximum": "L'username è troppo lungo",
+        "PasswordMinimum": "La password è obbligatoria",
+        "PasswordMaximum": "La password è troppo lunga",
+        "InvalidPassword": "La password non è valida",
+        "specialCharacters": "L'username deve contenere solo lettere e numeri",
+        "AcceptTerms": "Accettare i Termini",
+        "UnknownError": "Errore sconosciuto"
+    },
+    "AboutPage": {
+        "h1": "Informazioni sulla Pagina"
+    },
+    "SignInPage": {
+        "h1": "Accesso",
+        "button": "Accedi",
+        "text": "Non hai un account?",
+        "signinwith": "Accedi con",
+        "withgoogle": "Accedi con Google",
+        "withroblox": "Accedi con Roblox",
+        "withdiscord": "Accedi con Discord"
+    },
+    "SignUpPage": {
+        "h1": "Registrazione",
+        "CreateBtn": "Crea Account",
+        "TextLinkToSignIn": "Già hai un account? ",
+        "SpanSignIn": "Accedi",
+        "pTerms": "Accetto i ",
+        "LinkToTerms": "Termini"
+    }
+}

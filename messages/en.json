@@ -1,0 +1,38 @@
+{
+    "Home": {
+        "h1": "Main Page"
+    },
+    "AuthErrorMessages": {
+        "EmailRequired": "Email is required",
+        "EmailMinimum": "Email or Username is required",
+        "InvalidEmail": "Invalid email address",
+        "UsernameMinimum": "Username is required",
+        "UsernameMaximum": "Username is too long",
+        "PasswordMinimum": "Password is required",
+        "PasswordMaximum": "Password is too long",
+        "InvalidPassword": "Invalid password",
+        "specialCharacters": "Username can only contain letters and numbers",
+        "AcceptTerms": "Accept the Terms",
+        "UnknownError": "Unknown error"
+    },
+    "AboutPage": {
+        "h1": "About Page"
+    },
+    "SignInPage": {
+        "h1": "Sign In",
+        "button": "Sign In",
+        "text": "Don't have an account?",
+        "signinwith": "Sign in with",
+        "withgoogle": "Sign In with Google",
+        "withroblox": "Sign In with Roblox",
+        "withdiscord": "Sign In with Discord"
+    },
+    "SignUpPage": {
+        "h1": "Register",
+        "CreateBtn": "Create Account",
+        "TextLinkToSignIn": "Already have an account? ",
+        "SpanSignIn": "Sign In",
+        "pTerms": "I accept the ",
+        "LinkToTerms": "Terms"
+    }
+}

@@ -1,0 +1,38 @@
+{
+    "Home": {
+        "h1": "Startseite"
+    },
+    "AuthErrorMessages": {
+        "EmailRequired": "E-Mail ist erforderlich",
+        "EmailMinimum": "E-Mail oder Benutzername ist erforderlich",
+        "InvalidEmail": "Ungültige E-Mail-Adresse",
+        "UsernameMinimum": "Username ist erforderlich",
+        "UsernameMaximum": "Das Username ist zu lang",
+        "PasswordMinimum": "Das Passwort ist erforderlich",
+        "PasswordMaximum": "Das Passwort ist zu lang",
+        "InvalidPassword": "Ungültiges Passwort",
+        "specialCharacters": "Der Benutzername darf nur Buchstaben und Zahlen enthalten",
+        "AcceptTerms": "Die Nutzungsbedingungen sind nicht zutreffend",
+        "UnknownError": "Unbekannter Fehler"
+    },
+    "AboutPage": {
+        "h1": "Ueber uns"
+    },
+    "SignInPage": {
+        "h1": "Anmelden",
+        "button": "Anmelden",
+        "text": "Hast du keinen Account?",
+        "signinwith": "Anmelden mit",
+        "withgoogle": "Anmelden mit Google",
+        "withroblox": "Anmelden mit Roblox",
+        "withdiscord": "Anmelden mit Discord"
+    },
+    "SignUpPage": {
+        "h1": "Registrieren",
+        "CreateBtn": "Registrieren",
+        "TextLinkToSignIn": "Hast du bereits ein Konto?",
+        "SpanSignIn": "Anmelden",
+        "pTerms": "Ich akzeptiere die ",
+        "LinkToTerms": "Bedingungen"
+    }
+}

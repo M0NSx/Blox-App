@@ -1,0 +1,38 @@
+{
+    "Home": {
+        "h1": "메인 페이지"
+    },
+    "AuthErrorMessages": {
+        "EmailRequired": "이메일은 필수입니다",
+        "EmailMinimum": "이메일와 이름가 필수인 경우입니다",
+        "InvalidEmail": "이valid이지만 이메일입니다",
+        "UsernameMinimum": "이사용자 이름가 필수인 경우입니다",
+        "UsernameMaximum": "이사용자 이름가 긍금이다",
+        "PasswordMinimum": "비밀번호가 필수인 경우입니다",
+        "PasswordMaximum": "비밀번호가 긍금이다",
+        "InvalidPassword": "비밀번호가 없음다",
+        "specialCharacters": "이사용자 이름에 원하는 문자와 숫자이 포함됩니다",
+        "AcceptTerms": "이 셋하기",
+        "UnknownError": "엑셀가 없음다"
+    },
+    "AboutPage": {
+        "h1": "애플리케이션에 대한 한글"
+    },
+    "SignInPage": {
+        "h1": "로그인",
+        "button": "로그인",
+        "text": "아카이트가 없음다",
+        "signinwith": "아카이트으로 로그인하기",
+        "withgoogle": "Google으로 로그인하기",
+        "withroblox": "로블록스으로 로그인하기",
+        "withdiscord": "디스코드으로 로그인하기"
+    },
+    "SignUpPage": {
+        "h1": "가입하기",
+        "CreateBtn": "가입하기",
+        "TextLinkToSignIn": "아카이트가 없음다",
+        "SpanSignIn": "로그인",
+        "pTerms": "동의하기",
+        "LinkToTerms": "조건"
+    }
+}

@@ -1,0 +1,38 @@
+{
+    "Home": {
+        "h1": "主页"
+    },
+    "AuthErrorMessages": {
+        "EmailRequired": "电子邮件为必填项",
+        "EmailMinimum": "电子邮件或用户名为必填项",
+        "InvalidEmail": "无效的电子邮件地址",
+        "UsernameMinimum": "用户名为必填项",
+        "UsernameMaximum": "用户名过长",
+        "PasswordMinimum": "密码为必填项",
+        "PasswordMaximum": "密码过长",
+        "InvalidPassword": "无效的密码",
+        "specialCharacters": "用户名只能包含字母和数字",
+        "AcceptTerms": "接受条款",
+        "UnknownError": "未知错误"
+    },
+    "AboutPage": {
+        "h1": "关于我们"
+    },
+    "SignInPage": {
+        "h1": "登录",
+        "button": "登录",
+        "text": "还没有帐号?",
+        "signinwith": "使用以下帐号登录",
+        "withgoogle": "使用 Google 登录",
+        "withroblox": "使用 Roblox 登录",
+        "withdiscord": "使用 Discord 登录"
+    },
+    "SignUpPage": {
+        "h1": "注册",
+        "CreateBtn": "创建",
+        "TextLinkToSignIn": "已有帐号?",
+        "SpanSignIn": "登录",
+        "pTerms": "我已阅读并同意",
+        "LinkToTerms": "服务条款"
+    }
+}
