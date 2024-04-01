@@ -18,6 +18,10 @@ const Links = ({locale}: {locale: string}) => {
         {
             title: 'YourCombos',
             path: '/your-combos'
+        },
+        {
+            title: 'Trade',
+            path: '/trade'
         }
     ]
 
