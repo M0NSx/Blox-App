@@ -91,9 +91,32 @@ export async function DeleteCombo(formData: FormData) {
 
 export async function getCombo(slug: string) {
 
+    const session = await getServerSession();
     const data = await prisma.combo.findFirst({
         where: {
             combotitle: slug
+        },
+        select: {
+            id: true,
+            combotitle: true,
+            combodescription: true,
+            fightingstyle: true,
+            weapon: true,
+            fruit: true,
+            sword: true,
+            specialty: true,
+            createdAt: true,
+            author: true,
+            favorites: {
+                where: {
+                    userId: session?.user.id!,
+                },
+            },
+            comboLikes: {
+                where: {
+                    userId: session?.user.id!,
+                },
+            },
         }
     })
 

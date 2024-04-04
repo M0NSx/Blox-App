@@ -50,7 +50,7 @@ export default function ComboFormDetails() {
       .min(1, 'Please enter a combo name'),
     combodescription: z
       .string()
-      .max(250, 'Description must be less than 250 characters'),
+      .max(600, 'Description must be less than 600 characters'),
     specialty: z
       .string(),
     race: z
