@@ -106,6 +106,12 @@ export async function getCombo(slug: string) {
             sword: true,
             specialty: true,
             createdAt: true,
+            comboVideo: true,
+            authorImage: true,
+            authorEmail: true,
+            authorCreatedAt: true,
+            mainStats: true,
+            race: true,
             author: true,
             favorites: {
                 where: {
