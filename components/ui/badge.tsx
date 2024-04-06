@@ -15,7 +15,22 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
-        
+        hybrid: "border-transparent bg-stone-900 text-white hover:bg-stone-900/80",
+        fruitmain: "border-transparent bg-amber-700 text-white hover:bg-amber-700/80",
+        swordmain: "border-transparent bg-indigo-700 text-white hover:bg-indigo-700/80",
+        gunmain: "border-transparent bg-zinc-700 text-white hover:bg-zinc-700/80",
+        pvp: "border-transparent bg-red-700 text-white hover:bg-red-900/80",
+        pve: "border-transparent bg-cyan-950 text-white hover:bg-cyan-950/80",
+        grind: "border-transparent bg-fuchsia-500 text-white hover:bg-fuchsia-500/80",
+        human: "border-transparent bg-destructive text-white hover:bg-destructive/80",
+        ghoul: "border-transparent bg-rose-900 text-white hover:bg-rose-900/80",
+        fishman: "border-transparent bg-sky-700 text-white hover:bg-sky-700/80",
+        cyborg: "border-transparent bg-violet-900 text-white hover:bg-violet-900/80",
+        skypian: "border-transparent bg-zinc-400 text-white hover:bg-zinc-400/80",
+        mink: "border-transparent bg-lime-500 text-white hover:bg-lime-500/80",
+        hard: "border-transparent bg-black text-white",
+        medium: "border-transparent bg-cyan-500 text-white hover:bg-cyan-500/80",
+        noskill: "border-transparent bg-emerald-700 text-white hover:bg-emerald-700/80",
       },
     },
     defaultVariants: {

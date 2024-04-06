@@ -70,7 +70,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
             />
             {
                 openMenu && (
-                    <div ref={menuRef} className="bg-[#212529] p-4 w-[140px] shadow-lg absolute -left-[45px] top-[60px] rounded-lg">
+                    <div ref={menuRef} className="bg-[#212529] p-4 w-[140px] shadow-lg absolute text-white -left-[45px] top-[60px] rounded-lg">
                         <ul>
                            {session && session.user ? (
                                <>
@@ -82,7 +82,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
                                </>
                            ) : (
                                 <div className="">
-                                    <Link href={`/${locale}/sign-in`} className="flex rounded-lg cursor-pointer p-[5px] text-white hover:bg-gray-600 transition-all">Sign In</Link>
+                                    <Link href={`/${locale}/sign-in`} className="flex rounded-lg cursor-pointer p-[5px hover:bg-gray-600 transition-all">Sign In</Link>
                                 </div>
                            )}
                         </ul>

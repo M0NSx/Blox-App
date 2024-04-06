@@ -1,6 +1,5 @@
 import { AvatarDemo } from '@/components/HtmlComponents/AvatarDemo';
 import { HoverComboAuthor } from '@/components/HtmlComponents/HoverComboAuthor';
-import MoreVerticalBtn from '@/components/HtmlComponents/MoreVertical';
 import AddLikeButton, { AddFavoriteButton, DeleteFavoriteButton, DeleteLikeButton } from '@/components/SubmitButtons/SubmitButtons';
 import { addComboFavorite, addComboLike, getCombo, removeComboFavorite, removeComboLike } from '@/lib/actions/actions'
 import { getServerSession } from 'next-auth';
@@ -9,13 +8,12 @@ import Image from 'next/image';
 import React from 'react'
 import prisma from '@/lib/prisma';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import ComboVideo from '@/components/HtmlComponents/ComboVideo';
-import TextAreaAutoize from '@/components/HtmlComponents/TextAreaAutoSize';
 import TextAreaAutoSize from '@/components/HtmlComponents/TextAreaAutoSize';
 import { Button } from '@/components/ui/button';
 import { SendHorizonalIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import ComboInformation from '@/components/HtmlComponents/ComboInformation';
 
 interface ComboLike {
   id: string;
@@ -176,16 +174,11 @@ export default async function page({ params }: Props) {
         </div>
         <div className='flex flex-col gap-[5px]'>
           <p className='grid place-items-center'>Description:</p>
-          <ScrollArea className='w-full text-sm p-1 h-[80px]'>
+          <ScrollArea className='w-full text-sm p-1 h-[130px]'>
             {combo?.combodescription}
           </ScrollArea>
         </div>
-        <div className='grid grid-cols-2 text-sm gap-y-[4px] p-1'>
-          <p>Dificulty: <Badge>{combo?.difficulty}</Badge></p>
-          <p>Stats: <Badge>{combo?.mainStats}</Badge></p>
-          <p>Race: <Badge>{combo?.race}</Badge></p>
-          <p>Specialty: <Badge>{combo?.specialty}</Badge></p>
-        </div>
+          <ComboInformation mainStats={combo?.mainStats!} race={combo?.race!} specialty={combo?.specialty!} difficulty={combo?.difficulty!} />
         <div>
           <p>Combo Video:</p>
           <ComboVideo comboVideo={combo?.comboVideo} />

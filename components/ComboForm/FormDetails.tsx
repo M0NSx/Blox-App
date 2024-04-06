@@ -92,7 +92,7 @@ export default function ComboFormDetails() {
       const result = await newCombo.json();
       console.log(result);
       reset();
-      //window.location.replace(`/${locale}/create-combo`);
+      window.location.replace(`/${locale}/create-combo`);
       toast.success('Combo created successfully');
     } catch (error) {
       console.error(error);
