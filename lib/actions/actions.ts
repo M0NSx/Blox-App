@@ -112,6 +112,7 @@ export async function getCombo(slug: string) {
             authorCreatedAt: true,
             mainStats: true,
             race: true,
+            difficulty: true,
             author: true,
             favorites: {
                 where: {

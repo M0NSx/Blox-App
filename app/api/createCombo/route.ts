@@ -24,6 +24,7 @@ export const POST = async (req: Request) => {
             sword,
             race,
             mainStats,
+            difficulty,            
             comboVideo,
             authorCreatedAt,
         } = await req.json();
@@ -40,6 +41,7 @@ export const POST = async (req: Request) => {
                 combotitle,
                 combodescription,
                 specialty,
+                difficulty,
                 race,
                 mainStats,
                 comboVideo,

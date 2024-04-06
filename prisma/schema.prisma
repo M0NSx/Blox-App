@@ -82,6 +82,7 @@ model Combo {
   weapon           String
   specialty        String
   race             String
+  difficulty       String
   mainStats        String
   comboVideo       String
   createdAt        DateTime    @default(now())

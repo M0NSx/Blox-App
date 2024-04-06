@@ -37,6 +37,7 @@ export default function ComboFormDetails() {
 
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [selectedMainStats, setSelectedMainStats] = useState("");
+  const [selectedDifficulty, setSelectedDifficulty] = useState("");
   //const [videoFilePath, setVideoFilePath] = useState<string | null>(null);
   const [videoUrl, setVideoUrl] = useState('');
   const [isEditing, setIsEditing] = useState(false);
@@ -58,6 +59,8 @@ export default function ComboFormDetails() {
     mainStats: z
       .string(),
     comboVideo: z
+      .string(),
+    difficulty: z
       .string()
   })
 
@@ -107,6 +110,11 @@ export default function ComboFormDetails() {
     setSelectedMainStats(e.currentTarget.value);
   }
 
+  const handleDifficultyChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setValue('difficulty', e.currentTarget.value);
+    setSelectedDifficulty(e.currentTarget.value);
+  }
+
   const handleRaceChange = (value: string) => {
     setValue('race', value);
   }
@@ -120,6 +128,18 @@ export default function ComboFormDetails() {
     },
     {
       specialty: "Grind",
+    },
+  ]
+
+  const ComboDifficulties = [
+    {
+      difficulty: "Hard",
+    },
+    {
+      difficulty: "Medium",
+    },
+    {
+      difficulty: "No skill",
     },
   ]
 
@@ -278,6 +298,28 @@ export default function ComboFormDetails() {
                   </div>
                 )}
               </div>
+              <h3 className='text-sm'>Combo type:</h3>
+              <ul
+                className="items-center w-full text-sm font-medium border rounded-lg grid grid-cols-3 petit:flex
+                bg-gray-900 border-gray-600 text-white"
+              >
+                {ComboDifficulties.map((difficulty) => (
+                  <li key={difficulty.difficulty} className="w-full border-b petit:border-b-0 border-r border-gray-600">
+                    <div className="flex items-center ps-3">
+                      <input
+                        id={difficulty.difficulty}
+                        type="radio"
+                        value={difficulty.difficulty}
+                        checked={selectedDifficulty === difficulty.difficulty}
+                        onChange={handleDifficultyChange}
+                        name="list-difficulty-group"
+                        className="w-4 h-4 text-blue-600 bg-gray-600 border-gray-500"
+                      />
+                      <label htmlFor={difficulty.difficulty} className="w-full py-3 ms-2 text-sm font-medium text-gray-300">{difficulty.difficulty}</label>
+                    </div>
+                  </li>
+                ))}
+              </ul>
               <h3 className='text-sm'>Combo type:</h3>
               <ul
                 className="items-center w-full text-sm font-medium border rounded-lg grid grid-cols-3 petit:flex

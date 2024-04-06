@@ -6,6 +6,7 @@ interface TComboFormData {
     specialty: string;
     race: string;
     mainStats: string;
+    difficulty: string;
     comboVideo: string;
     fightingstyle: string;
     weapon: string;
@@ -30,6 +31,7 @@ const FormContext = createContext<IFormContext>({
         combodescription: "",
         specialty: "",
         race: "",
+        difficulty: "",
         mainStats: "",
         comboVideo: "",
         fightingstyle: "",
@@ -52,6 +54,7 @@ export function FormProvider({children}: IProps) {
         combodescription: "",
         specialty: "",
         race: "",
+        difficulty: "",
         mainStats: "",
         comboVideo: "",
         fightingstyle: "",

@@ -10,6 +10,12 @@ import React from 'react'
 import prisma from '@/lib/prisma';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import ComboVideo from '@/components/HtmlComponents/ComboVideo';
+import TextAreaAutoize from '@/components/HtmlComponents/TextAreaAutoSize';
+import TextAreaAutoSize from '@/components/HtmlComponents/TextAreaAutoSize';
+import { Button } from '@/components/ui/button';
+import { SendHorizonalIcon } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface ComboLike {
   id: string;
@@ -33,6 +39,7 @@ interface Combo {
   weapon: string
   fruit: string
   race: string
+  difficulty: string
   sword: string
   specialty: string
   mainStats: string
@@ -86,8 +93,8 @@ export default async function page({ params }: Props) {
 
   return (
     <div className='p-2 md:p-0'>
-      <div className='flex flex-col gap-[10px] rounded-md border-1 border-slate-400 p-1 mb-[10px]'>
-        <div className='flex justify-between mt-2'>
+      <div className='flex flex-col gap-[10px]'>
+        <div className='flex justify-between'>
           <div className='flex w-full items-center gap-2 border rounded-[8px] p-2'>
             <div className='grow'>
               <p className='text-[12px]'>You are viewing the combo <span className='font-bold'>{combo?.combotitle}</span></p>
@@ -95,7 +102,7 @@ export default async function page({ params }: Props) {
           </div>
         </div>
         <div className=''>
-          <div className='flex w-fit gap-2'>
+          <div className='flex gap-2 justify-center'>
             <Image
               src={combo?.fightingstyle || ''}
               className='border rounded-[8px]'
@@ -167,43 +174,35 @@ export default async function page({ params }: Props) {
             </div>
           )}
         </div>
-        <div >
+        <div className='flex flex-col gap-[5px]'>
           <p className='grid place-items-center'>Description:</p>
-          <ScrollArea className='h-[75px] w-full'>
-            <p className='text-[12px]'>{combo?.combodescription}</p>
+          <ScrollArea className='w-full text-sm p-1 h-[80px]'>
+            {combo?.combodescription}
           </ScrollArea>
         </div>
-        <div className='grid grid-cols-2'>
-          <p>Difficulty: Hard</p>
-          <p>Main Stat: {combo?.mainStats}</p>
-          <p>Specialty: {combo?.specialty}</p>
-          <p>Race: {combo?.race}</p>
+        <div className='grid grid-cols-2 text-sm gap-y-[4px] p-1'>
+          <p>Dificulty: <Badge>{combo?.difficulty}</Badge></p>
+          <p>Stats: <Badge>{combo?.mainStats}</Badge></p>
+          <p>Race: <Badge>{combo?.race}</Badge></p>
+          <p>Specialty: <Badge>{combo?.specialty}</Badge></p>
         </div>
-        <div className='my-[10px]'>
-          {combo?.comboVideo && (
-            combo.comboVideo
-          )}
+        <div>
+          <p>Combo Video:</p>
+          <ComboVideo comboVideo={combo?.comboVideo} />
         </div>
       </div>
-      <div className='flex flex-col gap-[10px] rounded-md border-1 border-slate-400 p-1'>
-        <div className="w-80">
-          <div className="flex justify-between space-x-4">
-            <div>
-              <Avatar>
-                <AvatarImage 
-                  src={combo?.authorImage}
-                  alt={combo?.author}
-                /> 
-                <AvatarFallback>VC</AvatarFallback>
-              </Avatar>
-            </div>
-            <div className="space-y-1">
-              <h4 className="text-sm font-semibold">{combo?.author}</h4>
-              <p className="text-sm">
-                The React Framework – created and maintained by @vercel.
-              </p>
-            </div>
+      <div className='flex flex-col mt-[20px]'>
+        <h2 className='text-[18px] font-bold mb-[6px]'>Comments:</h2>
+        <div className='flex w-full items-center gap-2 border rounded-[8px] p-2'>
+          <div className='flex shrink-[0]'>
+            <AvatarDemo userImg={session?.user.image} userNickName={session?.user.name} />
           </div>
+          <div className='grow relative'>
+            <p className='text-sm font-bold'>@{session?.user.name}</p>
+            <TextAreaAutoSize />
+            <Button className='petit:hidden absolute top-0 right-0 bg-black text-white rounded-[8px] px-2 py-1'><SendHorizonalIcon size={20} /></Button>
+          </div>
+            <Button className='hidden petit:block bg-black text-white rounded-[8px] px-2 py-1'><SendHorizonalIcon size={20} /></Button>
         </div>
       </div>
     </div>
