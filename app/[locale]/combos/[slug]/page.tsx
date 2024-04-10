@@ -1,19 +1,14 @@
-import { AvatarDemo } from '@/components/HtmlComponents/AvatarDemo';
 import { HoverComboAuthor } from '@/components/HtmlComponents/HoverComboAuthor';
-import AddLikeButton, { AddFavoriteButton, DeleteFavoriteButton, DeleteLikeButton } from '@/components/SubmitButtons/SubmitButtons';
-import { addComboFavorite, addComboLike, getCombo, removeComboFavorite, removeComboLike } from '@/lib/actions/actions'
 import { getServerSession } from 'next-auth';
 import { headers } from 'next/headers';
 import Image from 'next/image';
 import React from 'react'
 import prisma from '@/lib/prisma';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import ComboVideo from '@/components/HtmlComponents/ComboVideo';
-import TextAreaAutoSize from '@/components/HtmlComponents/TextAreaAutoSize';
-import { Button } from '@/components/ui/button';
-import { SendHorizonalIcon } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import ComboInformation from '@/components/HtmlComponents/ComboInformation';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import CommentsComponent from '@/components/HtmlComponents/TextAreaAutoSize';
+import AddLikeButton, { AddFavoriteButton, DeleteFavoriteButton, DeleteLikeButton } from '@/components/SubmitButtons/SubmitButtons';
+import { addComboFavorite, addComboLike, getCombo, removeComboFavorite, removeComboLike } from '@/lib/actions/actions';
 
 interface ComboLike {
   id: string;
@@ -36,18 +31,18 @@ interface Combo {
   fightingstyle: string
   weapon: string
   fruit: string
-  race: string
-  difficulty: string
   sword: string
   specialty: string
-  mainStats: string
-  comboVideo: string
   createdAt: Date
   author: string
   authorImage: string
   authorCreatedAt: Date
+  race: string
+  mainStats: string
+  comboVideo: string
   comboLikes: ComboLike[];
   favorites: Favorite[];
+  difficulty: string
 }
 
 interface Props {
@@ -88,9 +83,8 @@ export default async function page({ params }: Props) {
     }
   };
 
-
   return (
-    <div className='p-2 md:p-0'>
+    <div className='p-4 md:p-0'>
       <div className='flex flex-col gap-[10px]'>
         <div className='flex justify-between'>
           <div className='flex w-full items-center gap-2 border rounded-[8px] p-2'>
@@ -100,7 +94,7 @@ export default async function page({ params }: Props) {
           </div>
         </div>
         <div className=''>
-          <div className='flex gap-2 justify-center'>
+          <div className='flex justify-center gap-2'>
             <Image
               src={combo?.fightingstyle || ''}
               className='border rounded-[8px]'
@@ -174,29 +168,24 @@ export default async function page({ params }: Props) {
         </div>
         <div className='flex flex-col gap-[5px]'>
           <p className='grid place-items-center'>Description:</p>
-          <ScrollArea className='w-full text-sm p-1 h-[130px]'>
+          <ScrollArea className='w-full text-sm border rounded-lg p-1 h-[130px]'>
             {combo?.combodescription}
           </ScrollArea>
         </div>
-          <ComboInformation mainStats={combo?.mainStats!} race={combo?.race!} specialty={combo?.specialty!} difficulty={combo?.difficulty!} />
-        <div>
+        <ComboInformation difficulty={combo?.difficulty!} mainStats={combo?.mainStats!} race={combo?.race!} specialty={combo?.specialty!} />
+        <div className='mb-10'>
           <p>Combo Video:</p>
-          <ComboVideo comboVideo={combo?.comboVideo} />
-        </div>
-      </div>
-      <div className='flex flex-col mt-[20px]'>
-        <h2 className='text-[18px] font-bold mb-[6px]'>Comments:</h2>
-        <div className='flex w-full items-center gap-2 border rounded-[8px] p-2'>
-          <div className='flex shrink-[0]'>
-            <AvatarDemo userImg={session?.user.image} userNickName={session?.user.name} />
+          <div suppressHydrationWarning>
+            <video
+              src={combo?.comboVideo}
+              className=""
+              width="100%"
+              height="350px"
+              controls
+            />
           </div>
-          <div className='grow relative'>
-            <p className='text-sm font-bold'>@{session?.user.name}</p>
-            <TextAreaAutoSize />
-            <Button className='petit:hidden absolute top-0 right-0 bg-black text-white rounded-[8px] px-2 py-1'><SendHorizonalIcon size={20} /></Button>
-          </div>
-            <Button className='hidden petit:block bg-black text-white rounded-[8px] px-2 py-1'><SendHorizonalIcon size={20} /></Button>
         </div>
+        <CommentsComponent />
       </div>
     </div>
   )
