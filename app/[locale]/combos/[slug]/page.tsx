@@ -51,7 +51,12 @@ interface Props {
   }
 }
 
-export default async function page({ params }: Props) {
+
+export default async function page({ params, searchParams }: Props & 
+  { searchParams: { [key: string]: string | string[] | undefined } }
+ ) {
+
+  const selectedFilterType = (searchParams.filter || 'Recent') as string
   const session = await getServerSession();
   const user = await prisma.user.findUnique({
     where: {
@@ -84,10 +89,10 @@ export default async function page({ params }: Props) {
   };
 
   return (
-    <div className='p-4 md:p-0'>
-      <div className='flex flex-col gap-[10px]'>
+    <div className='p-2'>
+      <div className='dark:bg-[#212529] rounded-md md:p-10 p-4 mb-[10px] flex flex-col gap-[10px]'>
         <div className='flex justify-between'>
-          <div className='flex w-full items-center gap-2 border rounded-[8px] p-2'>
+          <div className='flex w-full items-center gap-2 border border-white rounded-[8px] p-2'>
             <div className='grow'>
               <p className='text-[12px]'>You are viewing the combo <span className='font-bold'>{combo?.combotitle}</span></p>
             </div>
@@ -97,28 +102,28 @@ export default async function page({ params }: Props) {
           <div className='flex justify-center gap-2'>
             <Image
               src={combo?.fightingstyle || ''}
-              className='border rounded-[8px]'
+              className='border border-white rounded-[8px]'
               alt=""
               width={60}
               height={60}
             />
             <Image
               src={combo?.fruit || ''}
-              className='border rounded-[8px]'
+              className='border border-white rounded-[8px]'
               alt=""
               width={60}
               height={60}
             />
             <Image
               src={combo?.sword || ''}
-              className='border rounded-[8px]'
+              className='border border-white rounded-[8px]'
               alt=""
               width={60}
               height={60}
             />
             <Image
               src={combo?.weapon || ''}
-              className='border rounded-[8px]'
+              className='border border-white rounded-[8px]'
               alt=""
               width={60}
               height={60}
@@ -168,7 +173,7 @@ export default async function page({ params }: Props) {
         </div>
         <div className='flex flex-col gap-[5px]'>
           <p className='grid place-items-center'>Description:</p>
-          <ScrollArea className='w-full text-sm border rounded-lg p-1 h-[130px]'>
+          <ScrollArea className='w-full text-sm border border-white rounded-lg p-1 h-[130px]'>
             {combo?.combodescription}
           </ScrollArea>
         </div>
@@ -185,8 +190,8 @@ export default async function page({ params }: Props) {
             />
           </div>
         </div>
-        <CommentsComponent />
       </div>
+      <CommentsComponent selectedFilterType={selectedFilterType}/>
     </div>
   )
 }
