@@ -35,7 +35,7 @@ async function getCombos({
           userId: userId ?? undefined,
         }
       },
-      comboLikes: {
+      likes: {
         where: {
           userId: userId ?? undefined,
         }
@@ -105,10 +105,10 @@ export default async function YourCombos({
               key={combo.id}
               pathName={pathname as string}
               specialty={combo.specialty}
-              comboLikes={combo.comboLikes}
-              isInLikeList={Array.isArray(combo.comboLikes) && combo.comboLikes.length > 0}
+              comboLikes={combo.likes}
+              isInLikeList={Array.isArray(combo.likes) && combo.likes.length > 0}
               isInFavoriteList={Array.isArray(combo.favorites) && combo.favorites.length > 0}
-              likeId={combo.comboLikes && combo.comboLikes[0]?.id}
+              likeId={combo.likes && combo.likes[0].comboId}
               favoriteId={combo.favorites && combo.favorites[0]?.id}
               comboId={combo.id}
               comboFittingStyle={combo.fightingstyle}

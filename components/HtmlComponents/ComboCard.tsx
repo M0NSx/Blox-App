@@ -9,7 +9,6 @@ import { SpecialtyBadge } from './ComboBadges';
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOption';
 
 interface ComboLike {
-  id: string;
   comboId: string;
   userId: string;
   createdAt: Date;
