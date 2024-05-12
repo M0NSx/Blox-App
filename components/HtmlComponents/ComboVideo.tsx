@@ -1,20 +1,27 @@
-'use client';
+"use client";
 
-import React from 'react'
-import ReactPlayer from 'react-player'
+import { ImageIcon } from "lucide-react";
+import React from "react";
+import ReactPlayer from "react-player";
 
 const ComboVideo = ({ comboVideo }: any) => {
   return (
-    <ReactPlayer
-      url={comboVideo}
-      className=""
-      controls
-      width="100%"
-      height="350px"
-      playing
-      loop
-    />
-  )
-}
+    <div className="mb-1">
+      {comboVideo ? (
+        <div suppressHydrationWarning>
+          <h2 className="font-bold mb-2">Combo Video:</h2>
+          <ReactPlayer
+            url={comboVideo}
+            width="100%"
+            height="200px"
+            controls
+          />
+        </div>
+      ) : (
+        null
+      )}
+    </div>
+  );
+};
 
-export default ComboVideo
+export default ComboVideo;

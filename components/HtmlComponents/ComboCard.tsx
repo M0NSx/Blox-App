@@ -1,10 +1,12 @@
 import { Star, MoreVertical, Heart, } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import prisma from '@/lib/prisma';
-import AddLikeButton, { AddFavoriteButton, DeleteFavoriteButton, DeleteLikeButton } from '@/components/SubmitButtons/SubmitButtons';
-import { addComboLike, addComboFavorite, removeComboLike, removeComboFavorite } from '@/lib/actions/actions';
+import AddLikeButton, { AddFavoriteButton, RemoveFavoriteButton, RemoveLikeButton } from '../SubmitButtons/SubmitButtons';
+import { addComboLike, addFavoriteCombo, removeComboLike, removeFavoriteCombo } from '@/lib/actions/comboActions';
 import Image from 'next/image';
 import MoreVerticalBtn from './MoreVertical';
+import { SpecialtyBadge } from './ComboBadges';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOption';
 
 interface ComboLike {
   id: string;
@@ -29,6 +31,7 @@ interface iAppProps {
   comboCreatedAt: Date;
   pathName: string;
   specialty: string;
+  comboSlug: string;
   comboLikes: ComboLike[];
 }
 
@@ -49,9 +52,10 @@ export async function ComboCard({
   specialty,
   isInFavoriteList,
   favoriteId,
+  comboSlug,
 }: iAppProps) {
 
-  const session = await getServerSession();
+  const session: any = await getServerSession(authOptions);
 
   function formatNumber(num: number): string {
     if (num < 1000) {
@@ -69,7 +73,7 @@ export async function ComboCard({
     <div className='p-1'>
       <div className='flex justify-between w-full border-[1px] border-slate-300'>
         <div className='flex'>
-          <div className='grid grid-cols-2 gap-2 p-3 border-r border-[1px] border-slate-300 cursor-pointer hover:bg-slate-900 transition-all'>
+          <div className='grid grid-cols-2 gap-2 p-3 border-r border-[1px] border-slate-300 cursor-pointer hover:bg-slate-900 dark:hover:bg-[#262657] transition-all'>
             <div className="border-[1px] border-slate-300" >
               <Image
                 src={comboFittingStyle}
@@ -107,9 +111,12 @@ export async function ComboCard({
             <h2>{comboTitle}</h2>
             <div>
               <p className=''>{comboCreatedAt.toDateString().split(' ').slice(1).join(' ')}</p>
-              {specialty ? (
-                <p>Specialty: <span className='font-bold'>{specialty}</span></p>
-              ) : (<p>Specialty: <span className='font-bold'>None</span></p>)}
+              <div className='flex gap-2'>
+                <p>Specialty:</p>
+                {specialty && (
+                  <SpecialtyBadge specialty={specialty} />
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -118,13 +125,13 @@ export async function ComboCard({
             {session?.user && session?.user?.id === userId && (
               <div className='flex flex-col items-center gap-[5px]'>
                 {isInFavoriteList ? (
-                  <form action={removeComboFavorite}>
+                  <form action={removeFavoriteCombo}>
                     <input type="hidden" name='pathName' value={pathName || ''} />
                     <input type="hidden" name='favoriteId' value={favoriteId} />
-                    <DeleteFavoriteButton />
+                    <RemoveFavoriteButton />
                   </form>
                 ) : (
-                  <form action={addComboFavorite}>
+                  <form action={addFavoriteCombo}>
                     <input type="hidden" name='pathName' value={pathName || ''} />
                     <input type="hidden" name='comboId' value={comboId} />
                     <AddFavoriteButton />
@@ -134,7 +141,7 @@ export async function ComboCard({
                   <form className='mt-1' action={removeComboLike}>
                     <input type="hidden" name='pathName' value={pathName || ''} />
                     <input type="hidden" name='likeId' value={likeId} />
-                    <DeleteLikeButton />
+                    <RemoveLikeButton />
                   </form>
                 ) : (
                   <form className='mt-1' action={addComboLike}>
@@ -143,8 +150,8 @@ export async function ComboCard({
                     <AddLikeButton />
                   </form>
                 )}
-                <p title={`${comboLikes.length} likes`} className='text-[12px] mt-[-10px]'>{formatNumber(likes)}</p>
-                <MoreVerticalBtn pathName={pathName} comboTitle={comboTitle} comboId={comboId} />
+                <p title={`${comboLikes.length} likes`} className='text-[12px] mt-[-10px]'>{formatNumber(comboLikes.length)}</p>
+                <MoreVerticalBtn comboSlug={comboSlug} pathName={pathName || ''} comboId={comboId} />
               </div>
             )}
           </div>

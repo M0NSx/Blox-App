@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { MoreVertical, Trash2, Pencil  } from 'lucide-react'
+import { MoreVertical, Trash2, Pencil, LoaderIcon, MoreHorizontal  } from 'lucide-react'
  
 import { Button } from "@/components/ui/button"
 import {
@@ -12,11 +12,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { DeleteCombo } from '@/lib/actions/actions'
+import { deleteCombo } from '@/lib/actions/comboActions' 
 import Link from 'next/link'
 import { useLocale } from '@/LocaleContext'
+import { DeleteComboBtn } from '../SubmitButtons/SubmitButtons'
 
-export default function MoreVerticalBtn({ comboId, comboTitle, pathName }: { pathName: string, comboTitle: string, comboId: string } ) {
+export default function MoreVerticalBtn({ comboId, comboSlug, pathName }: { pathName: string, comboSlug: string, comboId: string } ) {
 
   const { locale } = useLocale()
 
@@ -32,16 +33,46 @@ export default function MoreVerticalBtn({ comboId, comboTitle, pathName }: { pat
           <div className='p-1'>
             <Button className='w-full flex gap-1' variant="outline">
               <Pencil width={18} height={18} />
-              <Link href={`/${locale}/combos/${comboTitle}`} >View Combo</Link>
+              <Link href={`/${locale}/combos/${comboSlug}`} >View Combo</Link>
             </Button>
             <DropdownMenuSeparator />
-              <form action={DeleteCombo} >
+              <form action={deleteCombo} >
+                <>
                   <input type="hidden" name='comboId' value={comboId} />
                   <input type="hidden" name='pathName' value={pathName} />
-                <Button className='w-full flex gap-1' variant="destructive">
-                  <Trash2 width={18} height={18} />
-                  Delete Combo
-                </Button>
+                  <DeleteComboBtn />
+                </>
+              </form>
+          </div>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  )
+}
+
+export function MoreHorizontallBtn({ comboId, comboSlug, pathName }: { pathName: string, comboSlug: string, comboId: string } ) {
+
+  const { locale } = useLocale()
+
+  return (
+    <div>
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <MoreHorizontal className='size-[16px]' />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <div className='p-1'>
+            <Button className='w-full flex gap-1' variant="outline">
+              <Pencil width={18} height={18} />
+              <Link href={`/${locale}/combos/${comboSlug}`} >View Combo</Link>
+            </Button>
+            <DropdownMenuSeparator />
+              <form action={deleteCombo} >
+                <>
+                  <input type="hidden" name='comboId' value={comboId} />
+                  <input type="hidden" name='pathName' value={pathName} />
+                  <DeleteComboBtn />
+                </>
               </form>
           </div>
         </DropdownMenuContent>

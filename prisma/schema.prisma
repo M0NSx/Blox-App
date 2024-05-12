@@ -47,6 +47,25 @@ model User {
   comboLikes    Like[]
   sessions      Session[]
   favorites     Favorite[]
+  comments      Comment[]
+  commentLikes  CommentLike[]
+
+  @@unique([id, image, name])
+}
+
+model Comment {
+  id            String   @id @default(cuid())
+  userId        String
+  comboId       String
+  userName      String
+  userImage     String
+  text          String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime    @updatedAt
+  likes         CommentLike[]
+
+  combo         Combo   @relation(fields: [comboId], references: [id], onDelete: Cascade)
+  user          User    @relation(fields: [userId, userImage, userName], references: [id, image, name], onDelete: Cascade)
 }
 
 model Favorite {
@@ -58,11 +77,23 @@ model Favorite {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model CommentLike {
+  id        String   @id @default(cuid())
+  commentId String
+  userId    String
+  createdAt DateTime @default(now())
+
+  comment   Comment     @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
 model Like {
   id        String   @id @default(cuid())
   comboId   String
   userId    String
   createdAt DateTime @default(now())
+  
   combo     Combo    @relation(fields: [comboId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -70,6 +101,7 @@ model Like {
 model Combo {
   id               String      @id @default(cuid())
   slug             String      @unique
+  difficulty       String
   author           String
   authorImage      String
   authorEmail      String
@@ -82,7 +114,6 @@ model Combo {
   weapon           String
   specialty        String
   race             String
-  difficulty       String
   mainStats        String
   comboVideo       String
   createdAt        DateTime    @default(now())
@@ -90,6 +121,7 @@ model Combo {
   user             User        @relation(fields: [authorCreatedAt], references: [createdAt], onDelete: Cascade)
   comboLikes       Like[]
   favorites        Favorite[]
+  comments         Comment[]
 }
 
 model VerificationToken {

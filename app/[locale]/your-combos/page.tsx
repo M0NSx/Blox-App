@@ -4,6 +4,7 @@ import { ComboCard } from '@/components/HtmlComponents/ComboCard';
 import { headers } from "next/headers";
 import Link from 'next/link';
 import { AlertDestructive } from '@/components/HtmlComponents/AlertDestructive';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOption';
 
 const combosType = ["All", "PVP", "PVE", "Grind"];
 
@@ -12,7 +13,7 @@ async function getCombos({
 }: {
   userId: string
 }) {
-  const session = await getServerSession()
+  const session: any = await getServerSession(authOptions)
 
   const data = await prisma.combo.findMany({
     where: {
@@ -28,6 +29,7 @@ async function getCombos({
       sword: true,
       specialty: true,
       createdAt: true,
+      slug: true,
       favorites: {
         where: {
           userId: userId ?? undefined,
@@ -37,7 +39,7 @@ async function getCombos({
         where: {
           userId: userId ?? undefined,
         }
-      }
+      },
     }
   })
 
@@ -51,7 +53,7 @@ export default async function YourCombos({
 }) {
   const heads = headers()
   const pathname = heads ? heads.get('next-url') : '';
-  const session = await getServerSession()
+  const session: any = await getServerSession()
   const combos = await getCombos({userId: session?.user.id!, });
 
   const selectedComboType = (searchParams.specialty || 'All') as string
@@ -116,6 +118,7 @@ export default async function YourCombos({
               comboTitle={combo.combotitle}
               comboDescription={combo.combodescription}
               comboCreatedAt={combo.createdAt}
+              comboSlug={combo.slug}
             />
           ))
         )}

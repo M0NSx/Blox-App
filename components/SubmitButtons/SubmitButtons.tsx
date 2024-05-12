@@ -1,7 +1,29 @@
 'use client';
 
-import { Heart, Star } from "lucide-react";
+import { Heart, Loader, Star, Trash2 } from "lucide-react";
 import { useFormStatus } from "react-dom"
+import { Button } from "../ui/button";
+
+type CommentLike = {
+    id: string;
+    commentId: string;
+    userId: string;
+    createdAt: Date;
+}
+
+type Comment = {
+    id: string;
+    userId: string;
+    comboId: string;
+    userName: string;
+    userImage: string;
+    text: string;
+    likes: CommentLike[];
+    user: {
+      name: string | null;
+      image: string | null;
+    };
+}
 
 export default function AddLikeButton() {
     const { pending } = useFormStatus();
@@ -31,7 +53,7 @@ export default function AddLikeButton() {
     )
 }
 
-export function DeleteLikeButton() {
+export function RemoveLikeButton() {
     const { pending } = useFormStatus();
     return (
         <>
@@ -87,7 +109,7 @@ export function AddFavoriteButton() {
     )
 }
 
-export function DeleteFavoriteButton() {
+export function RemoveFavoriteButton() {
     const { pending } = useFormStatus();
     return (
         <>
@@ -109,6 +131,79 @@ export function DeleteFavoriteButton() {
                         width={18}
                         height={18}
                     />
+                </button>
+            )}
+        </>
+    )
+}
+
+export function DeleteComboBtn() {
+    const { pending } = useFormStatus();
+  
+    return (
+      <>
+        {pending ? (
+          <Button typeof='button' className='w-full flex gap-1' variant="destructive">
+            <Loader className="animate-spin" width={18} height={18} />
+          </Button>
+        ) : (
+          <Button className='w-full flex gap-1' variant="destructive">
+            <Trash2 width={18} height={18} />
+            Delete Combo
+          </Button>
+        )}
+      </>
+    )
+}
+
+export function AddCommentLike(comment: Comment) {
+    const { pending } = useFormStatus();
+    return (
+        <>
+            {pending ? (
+                <button type='button' className='px-[11px]  cursor-pointer border-1 hover:border-lime-400 h-[25px] place-content-center bg-zinc-500 text-white rounded-full font-bold'>
+                    {/*
+                    <span className=' text-white top-0 left-[12px] pointer-events-none'>
+                        +{comment.likes.length + 1}
+                    </span>
+                    */}
+                    <span className="text-transparent px-[10px]" />
+                </button>
+            ) : (
+                <button type='submit' className='px-[11px]  cursor-pointer border-1 hover:border-lime-400 h-[25px] place-content-center bg-zinc-500 text-white rounded-full font-bold'>
+                    {/*
+                    <span className=' text-white top-0 left-[12px] pointer-events-none'>
+                        +{comment.likes.length + 1}
+                    </span>
+                    */}
+                    <span className="text-transparent px-[10px]" />
+                </button>
+            )}
+        </>
+    )
+}
+
+export function RemoveCommentLike(comment: Comment) {
+    const { pending } = useFormStatus();
+    return (
+        <>
+            {pending ? (
+                <button type='button' className='px-[11px] cursor-pointer border-1 hover:border-lime-400 h-[25px] place-content-center bg-zinc-500 text-white rounded-full font-bold'>
+                    {/*
+                    <span className=' text-white top-0 left-[12px] pointer-events-none'>
+                        +{comment.likes.length - 1}
+                    </span>
+                    */}
+                    <span className="text-transparent px-[10px]" />
+                </button>
+            ) : (
+                <button type='submit' className='px-[11px] cursor-pointer border-1 hover:border-lime-400 h-[25px] place-content-center bg-zinc-500 text-white rounded-full font-bold'>
+                    {/*
+                    <span className=' text-white top-0 left-[12px] pointer-events-none'>
+                        +{comment.likes.length - 1}
+                    </span>
+                    */}
+                    <span className="text-transparent px-[10px]" />
                 </button>
             )}
         </>
