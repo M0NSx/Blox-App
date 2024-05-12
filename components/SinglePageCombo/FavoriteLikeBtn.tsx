@@ -64,10 +64,10 @@ export default async function FavortiteLikeBtn({ combo, comboId, likeId, favorit
             </form>
           )}
           <p
-            title={`${combo.comboLikes.length === undefined ? 0 : combo.comboLikes.length} likes`}
+            title={`${combo.likes.length === undefined ? 0 : combo.likes.length} likes`}
             className="text-[14px] mb-1"
           >
-            {formatNumber(combo.comboLikes.length === undefined ? 0 : combo.comboLikes.length)}
+            {formatNumber(combo.likes.length === undefined ? 0 : combo.likes.length)}
           </p>
         </div>
       )}
