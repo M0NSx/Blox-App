@@ -64,7 +64,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
                 width={40}
                 height={40}
                 ref={imgRef}
-                src={session?.user.image || NoAvatar}
+                src={session?.user?.image || NoAvatar}
                 onClick={() => setOpenMenu((prev) => !prev)}
                 className="w-[40px] h-[40px] rounded-full border-[2px] hover:border-gray-500 border-cyan-300 cursor-pointer"
             />
