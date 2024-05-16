@@ -53,7 +53,7 @@ export default async function YourCombos({
 }) {
   const heads = headers()
   const pathname = heads ? heads.get('next-url') : '';
-  const session: any = await getServerSession()
+  const session: any = await getServerSession(authOptions)
   const combos = await getCombos({userId: session?.user.id!, });
 
   const selectedComboType = (searchParams.specialty || 'All') as string
@@ -108,7 +108,7 @@ export default async function YourCombos({
               comboLikes={combo.likes}
               isInLikeList={Array.isArray(combo.likes) && combo.likes.length > 0}
               isInFavoriteList={Array.isArray(combo.favorites) && combo.favorites.length > 0}
-              likeId={combo.likes && combo.likes[0].comboId}
+              likeId={combo.likes && combo.likes[0]?.comboId}
               favoriteId={combo.favorites && combo.favorites[0]?.id}
               comboId={combo.id}
               comboFittingStyle={combo.fightingstyle}

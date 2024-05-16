@@ -14,18 +14,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { revalidatePath } from "next/cache";
-import { useRouter } from "next/router";
-import { createComment, getCommentsOfCombo } from "@/lib/actions/commentActions";
-import { toast } from "react-toastify";
+import { createComment } from "@/lib/actions/commentActions";
 import { SendHorizonal } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Combo } from "@/lib/types";
-import Comment from './Comment'
-import { useSearchParams } from "next/navigation";
+import { Combo, Comment } from "@/lib/types";
+import CommentsDisplay from '@/components/SinglePageCombo/CommentsDisplay'
+import { usePathname, useSearchParams } from "next/navigation";
+import { useOptimistic } from "react";
 
 const FilterTypes = ["Recent", "Old", "Top"];
 
@@ -41,7 +38,13 @@ type Props = {
 
 export default function CommentSection({ combo }: Props) {
 
-  const Comments = combo.comments
+  const [optimisticComments, addOptimisticComment] = useOptimistic(
+    combo.comments,
+    (state, newComment: Comment) => {
+      return [...state, newComment];
+    }
+  )
+  const pathName = usePathname();
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -53,6 +56,7 @@ export default function CommentSection({ combo }: Props) {
   const isLoading = form.formState.isSubmitting;
 
   const { data: session } = useSession();
+  const user: any = session?.user
   const [isCommenting, setIsCommenting] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -81,7 +85,29 @@ export default function CommentSection({ combo }: Props) {
 
         {isCommenting ? (
           <Form {...form}>
-            <form ref={formRef} className="flex flex-col p-1 w-full">
+            <form ref={formRef} action={async (FormData) => {
+              const comment = {
+                id: '',
+                text: FormData.get('CommentText') as string,
+                likes: [],
+                user: {
+                  id: user.id,
+                  name: user.name,
+                  image: user.image,
+                },
+                comboId: FormData.get('comboId') as string,
+                userId: FormData.get('userId') as string,
+                updatedAt: new Date(),
+                createdAt: new Date(),
+              }
+              handleCommenting();
+              form.reset();
+              addOptimisticComment(comment)
+              await createComment(FormData);
+            }} className="flex flex-col p-1 w-full">
+              <input type="hidden" name="comboId" value={combo.id} />
+              <input type="hidden" name="userId" value={user.id} />
+              <input type="hidden" name="pathName" value={pathName} />
               <FormField
                 name="CommentText"
                 render={({ field }) => (
@@ -108,7 +134,10 @@ export default function CommentSection({ combo }: Props) {
                 <div className={`flex`}>
                   <button
                     type="button"
-                    onClick={handleCommenting}
+                    onClick={() => {
+                      handleCommenting();
+                      form.reset();
+                    }}
                     className="cursor-pointer px-4 py-1 mr-1 dark:hover:bg-stone-800 hover:bg-stone-300 rounded-2xl"
                   >
                     Cancel
@@ -167,15 +196,7 @@ export default function CommentSection({ combo }: Props) {
             ))}
           </div>
         </div>
-        {
-          Comments.length > 0 ? (
-            <Comment  />
-          ) : (
-            <div className="w-full border rounded-lg p-4 mt-[45px] flex justify-center">
-              <h1 className="text-bold place-self-center">No comments to show.</h1>
-            </div>
-          )
-        }
+        <CommentsDisplay comments={optimisticComments} />
       </div>
     </div>
   );

@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
 import React from "react";
-import AddLikeButton, { AddFavoriteButton, RemoveFavoriteButton, RemoveLikeButton } from "../SubmitButtons/SubmitButtons";
+import AddLikeButton, { AddFavoriteButton, AddLikeParagraph, RemoveFavoriteButton, RemoveLikeButton, RemoveLikeParagraph } from "../SubmitButtons/SubmitButtons";
 import { addComboLike, addFavoriteCombo, removeComboLike, removeFavoriteCombo } from "@/lib/actions/comboActions";
 import { Combo } from "@/lib/types";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOption";
+import { authOptions } from '../../app/api/auth/[...nextauth]/authOption';
 
 type Props = {
   combo: Combo;
@@ -19,7 +19,7 @@ type Props = {
 
 export default async function FavortiteLikeBtn({ combo, comboId, likeId, favoriteId, userId, userEmail, pathName, isInLikeList, isInFavoriteList }: Props) {
 
-  const session = await getServerSession(authOptions);
+  const session: any = await getServerSession(authOptions);
 
   function formatNumber(num: number): string {
     if (num < 1000) {
@@ -51,24 +51,22 @@ export default async function FavortiteLikeBtn({ combo, comboId, likeId, favorit
             </form>
           )}
           {isInLikeList ? (
-            <form className="mt-1" action={removeComboLike}>
-              <input type="hidden" name="pathName" value={pathName || ""} />
-              <input type="hidden" name="likeId" value={likeId} />
-              <RemoveLikeButton />
-            </form>
-          ) : (
-            <form className="mt-1" action={addComboLike}>
+            <form className="mt-1 flex gap-1" action={removeComboLike}>
               <input type="hidden" name="pathName" value={pathName || ""} />
               <input type="hidden" name="comboId" value={comboId} />
+              <RemoveLikeButton />
+              <RemoveLikeParagraph combo={combo} />
+            </form>
+          ) : (
+            <form className="mt-1 flex gap-1" action={addComboLike}>
+              <input type="hidden" name="pathName" value={pathName || ""} />
+              <input type="hidden" name="comboId" value={comboId} />
+              <input type="hidden" name="userId" value={session.user.id} />
               <AddLikeButton />
+              <AddLikeParagraph combo={combo} />
             </form>
           )}
-          <p
-            title={`${combo.likes.length === undefined ? 0 : combo.likes.length} likes`}
-            className="text-[14px] mb-1"
-          >
-            {formatNumber(combo.likes.length === undefined ? 0 : combo.likes.length)}
-          </p>
+          
         </div>
       )}
     </div>

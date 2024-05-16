@@ -51,7 +51,7 @@ export default function ComboFormDetails() {
       .min(1, 'Please enter a combo name'),
     combodescription: z
       .string()
-      .max(600, 'Description must be less than 600 characters'),
+      .max(1000, 'Description must be less than 1000 characters'),
     specialty: z
       .string(),
     race: z
@@ -81,7 +81,7 @@ export default function ComboFormDetails() {
     };
 
     try {
-      const newCombo = await fetch('http://localhost:3000/api/createCombo', {
+      const newCombo = await fetch('/api/createCombo', {
         method: 'POST',
         body: JSON.stringify(formDataToSend),
         headers: {
