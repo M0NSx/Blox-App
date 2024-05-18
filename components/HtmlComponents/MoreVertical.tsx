@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   MoreVertical,
   Trash2,
@@ -23,10 +23,9 @@ import Link from "next/link";
 import { useLocale } from "@/LocaleContext";
 import { useFormStatus } from "react-dom";
 import { Comment } from "@/lib/types";
-import { DeleteComboBtn } from '@/components/SubmitButtons/SubmitButtons';
-import { usePathname } from "next/navigation";
+import { DeleteComboBtn } from '../SubmitButtons/SubmitButtons';
+import { usePathname, useRouter } from "next/navigation";
 import { DeleteCommentAction } from "@/lib/actions/commentActions";
-import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 
 export default function MoreVerticalBtn({
@@ -68,84 +67,3 @@ export default function MoreVerticalBtn({
     </div>
   );
 }
-
-type Props = {
-  comment: Comment;
-};
-
-export function MoreHorizontallBtn({ comment }: Props) {
-
-  const pathName = usePathname();
-  const { data: session } = useSession();
-  const currentUser: any = session?.user
-
-  return (
-    <div>
-      <DropdownMenu>
-        <DropdownMenuTrigger>
-          <MoreHorizontal className="size-[16px]" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <form action="" className="p-1">
-            <EditCommentBtn />
-          </form>
-          <form action={async (formdata) => {
-            toast.success('Comment deleted')
-            setTimeout(() => {
-              window.location.reload()
-            }, 1000)
-            await DeleteCommentAction(formdata)
-          }} className="p-1">
-            <input type="hidden" name="commentId" value={comment.id} />
-            <input type="hidden" name="comboId" value={comment.comboId} />
-            <input type="hidden" name="pathName" value={pathName} />
-            <DeleteCommentBtn />
-          </form>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
-  );
-}
-
-export function DeleteCommentBtn() {
-
-  const { pending } = useFormStatus();
-
-  return (
-    <Button disabled={pending} variant="destructive" className="flex w-full items-center gap-1">
-      {pending ? (
-        <>
-          <LoaderIcon className="animate-spin" width={18} height={18} />
-          <span>Deleting Comment...</span>
-        </>
-      ) : (
-        <>
-
-          <Trash2 width={18} height={18} />
-          <span>Delete Comment</span>
-        </>
-      )}
-    </Button>
-  );
-};
-
-export function EditCommentBtn() {
-
-  const { pending } = useFormStatus();
-
-  return (
-    <Button disabled={pending} variant="outline" className="flex w-full items-center gap-1">
-      {pending ? (
-        <>
-          <LoaderIcon className="animate-spin" width={18} height={18} />
-          <span>Editing Comment...</span>
-        </>
-      ) : (
-        <>
-          <Pencil width={18} height={18} />
-          <span>Edit Comment</span>
-        </>
-      )}
-    </Button>
-  );
-};

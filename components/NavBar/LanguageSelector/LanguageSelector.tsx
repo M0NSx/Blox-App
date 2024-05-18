@@ -105,7 +105,7 @@ const LanguageSelector = ({ item, locale }: { item: { title: string; path: strin
                 <div ref={imgRef}>
                 {selectedLanguage ? (
                         <Image
-                            className="rounded-full hover:bg-gray-500 p-[10px] cursor-pointer"
+                            className="rounded-full hover:bg-gray-500 p-[10px] cursor-pointer transition-all"
                             onClick={() => setOpenMenu((prev) => !prev)}
                             src={selectedLanguage}
                             alt="Selected Language"
@@ -121,12 +121,12 @@ const LanguageSelector = ({ item, locale }: { item: { title: string; path: strin
                 </div>
                 {
                     openMenu && (
-                        <div ref={menuRef} className="bg-[#212529] p-4 w-[170px] shadow-lg absolute -left-[57px] top-[60px] rounded-lg">
+                        <div ref={menuRef} className="bg-[#212529] text-white p-4 w-[170px] shadow-lg absolute -left-[57px] top-[50px] rounded-lg">
                             <ul>
                                 {Languages.map((idiom) => (
-                                    <Link href={pathname} locale={idiom.locale as "en" | "pt" | "fr" | "de" | "it" | "jp" | "kr" | "cn" | undefined} onClick={() => handleLanguageClick(idiom.img.src)} className="flex p-[10px] items-center cursor-pointer gap-[10px] hover:bg-gray-500 rounded-lg" key={idiom.title}>
+                                    <Link scroll={false} href={pathname} locale={idiom.locale as "en" | "pt" | "fr" | "de" | "it" | "jp" | "kr" | "cn" | undefined} onClick={() => handleLanguageClick(idiom.img.src)} className="flex p-[10px] items-center cursor-pointer gap-[10px] hover:bg-gray-500 rounded-lg" key={idiom.title}>
                                         <Image className="w-[20px] h-[20px]" src={idiom.img} alt={idiom.title} />
-                                        <p className="text-white">{idiom.title}</p>
+                                        <p>{idiom.title}</p>
                                     </Link>
                                 ))}
                             </ul>

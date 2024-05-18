@@ -16,7 +16,7 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { Button } from '../ui/button'
-import MobileActiveLink from './navLinks/ActiveLink/ActiveLink';
+import MobileActiveLink from '../NavBar/navLinks/ActiveLink/MobileActiveLink';
 
 export default function MobileNavBar({locale}: {locale: string}) {
     const links = [
@@ -67,7 +67,7 @@ export default function MobileNavBar({locale}: {locale: string}) {
                 <span className="sr-only">Toggle navigation menu</span>
             </Button>
         </SheetTrigger>
-        <SheetContent side="left">
+        <SheetContent className='z-[1000]' side="left">
             <nav className="grid gap-6 text-lg font-medium">
                 <Link
                     href="#"

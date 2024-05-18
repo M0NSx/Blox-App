@@ -2,9 +2,8 @@ import Link from "next/link"
 import Links from "./navLinks/Links";
 import LanguageSelector from "./LanguageSelector/LanguageSelector";
 import ProfileSelector from "./ProfileSelector/ProfileSelector";
-import { Menu } from 'lucide-react';
-import { ModeToggle } from "./ModeToggle";
-import MobileNavBar from "./MobileNavBar";
+import MobileNavBar from "../NavBar/MobileNavBar";
+import { ThemeModeToggle } from "./ThemeModeToggle";
 
 const NavBar = ({ locale }: { locale: string }) => {
 
@@ -32,7 +31,7 @@ const NavBar = ({ locale }: { locale: string }) => {
       //flex items-center gap-[20px] justify-between
   return (
     <div className="fixed top-0 w-full z-[999] bg-[#212529]">
-      <nav className={`md:max-w-[1000px] md:m-auto flex justify-between  items-center p-2`}>
+      <nav className={`md:max-w-[1000px] md:m-auto flex justify-between items-center p-2`}>
         <Link href={`/${locale}`} className="hidden text-white md:block">Logo</Link>
         <MobileNavBar locale={locale} />
         <div className="text-white hidden md:block">
@@ -40,7 +39,7 @@ const NavBar = ({ locale }: { locale: string }) => {
         </div>
         <div className="flex">
           <LanguageSelector item={links[0]} locale={locale} />
-          <ModeToggle />
+          <ThemeModeToggle />
           <ProfileSelector locale={locale} />
         </div>
       </nav>

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import React, { useRef, useState } from "react";
 import { AvatarDemo } from "../HtmlComponents/AvatarDemo";
 import { useSession } from "next-auth/react";
@@ -14,65 +13,64 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { createComment } from "@/lib/actions/commentActions";
 import { SendHorizonal } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Combo, Comment } from "@/lib/types";
-import CommentsDisplay from '@/components/SinglePageCombo/CommentsDisplay'
-import { usePathname, useSearchParams } from "next/navigation";
+import { createComment } from "@/lib/actions/commentActions";
+import { Combo } from "@/lib/types";
+import { usePathname } from "next/navigation";
+import CommentFilter from './CommentFilter';
+import CommentsDisplay from "./CommentsDisplay";
 import { useOptimistic } from "react";
-
-const FilterTypes = ["Recent", "Old", "Top"];
+import { Comment } from "@/lib/types";
 
 const FormSchema = z.object({
-  CommentText: z.string().min(1, {
+  text: z.string().min(1, {
     message: "Comment is required",
   }),
 });
 
+type InputValue = z.infer<typeof FormSchema>;
+
 type Props = {
   combo: Combo;
-}
+  userId: string;
+};
 
-export default function CommentSection({ combo }: Props) {
-
-  const [optimisticComments, addOptimisticComment] = useOptimistic(
-    combo.comments,
-    (state, newComment: Comment) => {
-      return [...state, newComment];
-    }
-  )
-  const pathName = usePathname();
-
+export default function CommentSection({ combo, userId }: Props) {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      CommentText: "",
+      text: "",
     },
   });
 
   const isLoading = form.formState.isSubmitting;
 
   const { data: session } = useSession();
-  const user: any = session?.user
   const [isCommenting, setIsCommenting] = useState(false);
+  const [showEmojiList, setShowEmojiList] = useState(false);
+  const pathName = usePathname();
   const formRef = useRef<HTMLFormElement>(null);
+
+  const [optimisticComments, addOptimisticComment] = useOptimistic(
+    combo.comments,
+    (state, newComment: Comment) => {
+      return [...state, newComment];
+    }
+  );
 
   const handleCommenting = () => {
     setIsCommenting((prevState) => !prevState);
   };
-
-  const searchParams = useSearchParams();
-  const selectedFilterType = searchParams.get("filter");
 
   return (
     <div className="p-2">
       <div className="flex items-center gap-2">
         <p>Comments</p>
         <div className="px-[6px] bg-zinc-500 text-white rounded-full">
-          <span className="font-bold">{0}</span>
+          <span className="font-bold">{combo.comments.length}</span>
         </div>
       </div>
       <div className="flex mt-3">
@@ -85,31 +83,35 @@ export default function CommentSection({ combo }: Props) {
 
         {isCommenting ? (
           <Form {...form}>
-            <form ref={formRef} action={async (FormData) => {
-              const comment = {
-                id: '',
-                text: FormData.get('CommentText') as string,
-                likes: [],
-                user: {
-                  id: user.id,
-                  name: user.name,
-                  image: user.image,
-                },
-                comboId: FormData.get('comboId') as string,
-                userId: FormData.get('userId') as string,
-                updatedAt: new Date(),
-                createdAt: new Date(),
-              }
-              handleCommenting();
-              form.reset();
-              addOptimisticComment(comment)
-              await createComment(FormData);
-            }} className="flex flex-col p-1 w-full">
+            <form
+              ref={formRef}
+              action={async (FormData) => {
+                const comment = {
+                  id: "",
+                  text: form.getValues("text"),
+                  comboId: combo.id,
+                  userId: userId,
+                  createdAt: new Date(),
+                  updatedAt: new Date(),
+                  likes: [], // * TODO: value to insert and then - 1 when displaying *
+                  user: {
+                    id: userId,
+                    name: session?.user?.name || "",
+                    image: session?.user?.image || "",
+                  },
+                };
+
+                handleCommenting();
+                form.reset();
+                addOptimisticComment(comment);
+                await createComment(FormData);
+              }}
+              className="flex flex-col p-1 w-full"
+            >
               <input type="hidden" name="comboId" value={combo.id} />
-              <input type="hidden" name="userId" value={user.id} />
               <input type="hidden" name="pathName" value={pathName} />
               <FormField
-                name="CommentText"
+                name="text"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -128,9 +130,7 @@ export default function CommentSection({ combo }: Props) {
                   </FormItem>
                 )}
               />
-              <div
-                className={`justify-end flex w-full items-center`}
-              >
+              <div className={`justify-end flex w-full items-center`}>
                 <div className={`flex`}>
                   <button
                     type="button"
@@ -154,7 +154,7 @@ export default function CommentSection({ combo }: Props) {
                     ) : (
                       <button
                         disabled={isLoading}
-                        className="flex text-black justify-center w-[60px] px-2 py-1 cursor-pointer rounded-2xl bg-cyan-400 hover:bg-cyan-500"
+                        className="flex shadow-md shadow-cyan-500/50 text-black justify-center w-[60px] px-2 py-1 cursor-pointer rounded-2xl bg-cyan-400 hover:bg-cyan-500"
                         type="submit"
                       >
                         <SendHorizonal className="size-6" />
@@ -176,28 +176,8 @@ export default function CommentSection({ combo }: Props) {
           </div>
         )}
       </div>
-      <div className="mt-[20px] flex flex-col">
-        <div className="flex w-full tinymax:px-[10px] px-[40px] py-2 items-center border rounded-xl dark:border-none dark:bg-[#212529]">
-          <div className="flex tinymax:gap-1 gap-4 items-center text-sm">
-            <p className="text-zinc-400">Filter by:</p>
-            {FilterTypes.map((filterType) => (
-              <Link
-                key={filterType}
-                href={`?filter=${filterType}`}
-                scroll={false}
-                className={`cursor-pointer ${
-                  filterType === selectedFilterType
-                    ? "bg-zinc-500 text-white"
-                    : "hover:bg-stone-200 dark:hover:bg-zinc-600"
-                } text-center place-content-center w-[60px] p-1 rounded-sm`}
-              >
-                {filterType}
-              </Link>
-            ))}
-          </div>
-        </div>
-        <CommentsDisplay comments={optimisticComments} />
-      </div>
+      <CommentFilter />
+      <CommentsDisplay userId={userId} comments={combo.comments} />
     </div>
   );
 }

@@ -1,68 +1,89 @@
 'use server';
 
-import { connect } from "http2";
-import prisma from "../prisma";
-import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOption";
+import prisma from "../prisma";
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOption';
+import { User } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
-export const createComment = async (data: FormData) => {
-    
-    const text = data.get('CommentText') as string
-    const comboId = data.get('comboId') as string
-    const userId = data.get('userId') as string
-    const pathName = data.get('pathName') as string
-     
-    const user = await prisma.user.findUnique({
-        where: {
-            id: userId,
-        },
-    });
+export const createComment = async (FormData: FormData) => {
+    const session = await getServerSession(authOptions);
+    const userSession = session?.user as User    
+    const text = FormData.get("text") as string;
+    const comboId = FormData.get("comboId") as string;
+    const pathName = FormData.get("pathName") as string;
 
-    if (!user) return
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userSession.id,
+            }
+        });
 
-    const combo = await prisma.combo.findUnique({
-        where: {
-            id: comboId
-        },
-    });
+        if (!user) {
+            console.error("User not found / Unauthorized");
+            return;
+        };
 
-    if (!combo) return
-
-    await prisma.comment.create({
-        data: {
-            text,
-            user: {
-                connect: {
-                    id: userId,
+        const comment = await prisma.comment.create({
+            data: {
+                text,
+                user: {
+                    connect: {
+                        id: user.id
+                    }
                 },
+                combo: {
+                    connect: {
+                        id: comboId
+                    }
+                }
             },
-            combo: {
-                connect: {
-                    id: comboId,
-                },
-            },
-        },
-    });
+            include: {
+                combo: true,
+                user: true,
+                likes: true
+            }
+        });
 
-    revalidatePath(pathName)
+        revalidatePath(pathName);
+        return comment;
+    } catch (error) {
+        console.log("[ERROR_COMMENT_CREATION]", error);
+        return;
+    }
+
 }
 
-export async function DeleteCommentAction(formData: FormData) {
-
-    const session: any = await getServerSession(authOptions);
-    const commentId = formData.get("commentId") as string;
-    const pathName = formData.get("pathName") as string;
-    const comboId = formData.get("comboId") as string;
+export const DeleteCommentAction = async (FormData: FormData) => {
+    const session = await getServerSession(authOptions);
+    const userSession = session?.user as User
+    const commentId = FormData.get("commentId") as string
+    const pathName = FormData.get("pathName") as string;
 
     await prisma.comment.delete({
         where: {
             id: commentId,
-            userId: session?.user?.id,
-            comboId,
+            userId: userSession.id,
         }
-
     });
+
+    revalidatePath(pathName);
+}
+
+export const UpdateCommentText = async (FormData: FormData) => {
+    const commentId = FormData.get("commentId") as string
+    const text = FormData.get("text") as string
+    const pathName = FormData.get("pathName") as string;
+
+    await prisma.comment.update({
+        where: {
+            id: commentId,
+        },
+        data: {
+            text
+        }
+    })
 
     revalidatePath(pathName);
 }
