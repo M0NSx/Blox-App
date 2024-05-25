@@ -3,7 +3,7 @@
 import { getServerSession} from "next-auth";
 import prisma from "../prisma";
 import { revalidatePath } from "next/cache";
-import { authOptions } from "../../app/api/auth/[...nextauth]/authOption";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOption";
 import { Combo } from "../types";
 
 export async function addComboLike(FormData: FormData) {
@@ -206,11 +206,38 @@ export async function getSlugCombo(slug: string) {
                     text: true,
                     createdAt: true,
                     updatedAt: true,
+                    replies: {
+                        select: {
+                            id: true,
+                            text: true,
+                            parentId: true,
+                            userId: true,
+                            createdAt: true,
+                            updatedAt: true,
+                            user: {
+                                select: {
+                                    name: true,
+                                    image: true,
+                                    id: true,
+                                    createdAt: true
+                                }
+                            },
+                            likes: {
+                                select: {
+                                    id: true,
+                                    replyId: true,
+                                    userId: true,
+                                    createdAt: true,
+                                }
+                            },
+                        }
+                    },
                     user: {
                         select: {
                             name: true,
                             image: true,
-                            id: true
+                            id: true,
+                            createdAt: true
                         }
                     }, 
                     userId: true,
@@ -229,7 +256,8 @@ export async function getSlugCombo(slug: string) {
                 select: {
                     name: true,
                     image: true,
-                    id: true
+                    id: true,
+                    createdAt: true
                 }
             },         
             favorites: {
