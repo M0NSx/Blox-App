@@ -32,6 +32,7 @@ import { DeleteComment, UpdateCommentText } from "@/lib/actions/commentActions";
 import { usePathname } from "next/navigation";
 import { DeleteCommentBtn, SaveEditCommentBtn } from "../SubmitButtons/SubmitButtons";
 import CommentReply from "./CommentReply";
+import SubMessages from "./SubMessages";
 
 type Props = {
   comment: Comment;
@@ -41,6 +42,7 @@ type Props = {
 export default function CommentText({ comment, userId }: Props) {
   const [fullComment, setFullComment] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
   const [replyUserName, setReplyUserName] = useState("" as string | null);
   const [textValue, setTextValue] = useState("");
@@ -53,9 +55,9 @@ export default function CommentText({ comment, userId }: Props) {
     setIsReplying((prev) => !prev);
   };
 
- const catchUserName = (userName: string | null) => {
-   setReplyUserName(userName);
- }
+  const catchUserName = (userName: string | null) => {
+    setReplyUserName(userName);
+  }
 
   const pathName = usePathname();
 
@@ -167,11 +169,10 @@ export default function CommentText({ comment, userId }: Props) {
                       <>
                         <TextareaAutosize
                           readOnly
-                          className={`${
-                            hasNoSpaces(comment.text)
-                              ? "break-all"
-                              : "break-words"
-                          } petitmax:text-[13px] w-full bg-transparent outline-none resize-none`}
+                          className={`${hasNoSpaces(comment.text)
+                            ? "break-all"
+                            : "break-words"
+                            } petitmax:text-[13px] w-full bg-transparent outline-none resize-none`}
                           value={comment.text.slice(0, 430)}
                         />
                         <p
@@ -187,7 +188,10 @@ export default function CommentText({ comment, userId }: Props) {
           )}
         </div>
       )}
-      <div className="flex gap-2">
+      {isReplying && (
+        <CommentReply replyUserName={replyUserName} toggleReplying={toggleReplying} comment={comment as Comment} />
+      )}
+      <div className="flex gap-2 relative">
         <div onClick={() => {
           toggleReplying();
           catchUserName(comment.user.name);
@@ -230,9 +234,6 @@ export default function CommentText({ comment, userId }: Props) {
           </div>
         )}
       </div>
-      {isReplying && (
-        <CommentReply replyUserName={replyUserName} toggleReplying={toggleReplying} comment={comment as Comment} />
-      )}
     </>
   );
 }

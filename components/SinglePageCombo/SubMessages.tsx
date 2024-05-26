@@ -1,7 +1,9 @@
 "use client";
 
 import { Comment, Replies } from "@/lib/types";
+import Link from "next/link";
 import React, { useState } from "react";
+import { AvatarDemo } from "../HtmlComponents/AvatarDemo";
 import { useSession } from "next-auth/react";
 import { User } from "@prisma/client";
 import { usePathname } from "@/navigation";
@@ -14,7 +16,8 @@ import {
   RemoveCommentLikeBtn,
 } from "../SubmitButtons/SubmitButtons";
 import { Button } from "../ui/button";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, ChevronsUpDown } from "lucide-react";
+import CommentText from "./CommentText";
 import ReplyText from "./ReplyText";
 import { HoverCommentAuthor } from "../HtmlComponents/HoverComboAuthor";
 import { formatDistanceToNow } from "date-fns";
@@ -81,7 +84,9 @@ export default function SubMessages({ comment }: Props) {
       <Button
         onClick={() => setShowMore((prev) => !prev)}
         variant="link"
-        className={`absolute rounded-lg ${currentUser.id === comment.user.id ? "top-[-30px] petit:top-[-30px]" : "top-[-25px]" } left-[50px] petit:left-[170px] flex p-0 items-center gap-1 w-fit h-[30px] ${
+        className={`absolute rounded-lg
+        ${currentUser.id === comment.user.id ? "top-[-30px] petit:top-[-30px]" : "top-[-25px]" }
+        ${comment.userId === currentUser.id ? "left-[50px] petit:left-[170px]" : "left-[25px] petit:left-[140px]"} flex p-0 items-center gap-1 w-fit h-[30px] ${
           showMore && "underline"
         }`}
       >

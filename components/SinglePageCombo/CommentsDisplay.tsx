@@ -28,6 +28,8 @@ import { zhCN } from 'date-fns/locale';
 import { ptBR } from 'date-fns/locale';
 import { enUS } from 'date-fns/locale';
 import { useLocale } from "@/LocaleContext"; 
+import { Button } from "../ui/button";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const locales = {
   en: enUS,
@@ -75,6 +77,7 @@ export default function CommentsDisplay({ comments, userId }: Props) {
   const { locale } = useLocale();
   const SearchParams = useSearchParams();
   const selectedFilter = SearchParams.get("filter");
+  const [showMore, setShowMore] = useState(false);
 
   const filteredComments = comments.sort((a, b) => {
     if (selectedFilter === "Recent") {
@@ -116,7 +119,7 @@ export default function CommentsDisplay({ comments, userId }: Props) {
                     {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true, locale: getLocale(locale) })}
                   </span>
                 </div>
-                <div className="petit:order-first petit:items-center flex justify-end w-full">
+                <div className="petit:order-first customtiny:order-last petit:items-center flex justify-end w-full">
                   {!!comment.likes?.find(
                     (like) => like.userId === currentUser.id
                   ) ? (
@@ -154,7 +157,9 @@ export default function CommentsDisplay({ comments, userId }: Props) {
                 <CommentText userId={userId} comment={comment} />
               </div>
             </div>
-            <SubMessages comment={comment} />
+            <SubMessages
+              comment={comment}
+            />
           </div>
         ))
       )}
