@@ -4,7 +4,8 @@
 
 
 {
-    "Home": {
+
+"Home": {
         "h1": "Main Page"
     },
     "AuthErrorMessages": {
