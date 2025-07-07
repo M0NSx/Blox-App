@@ -6,6 +6,7 @@
 
 
 
+
 {
 
 "Home": {
@@ -21,8 +22,7 @@
         "PasswordMaximum": "Password is too long",
         "InvalidPassword": "Invalid password",
         "specialCharacters": "Username can only contain letters and numbers",
-        "AcceptTerms": "Accept the Terms",
-        "UnknownError": "Unknown error"
+        "AcceptTerms": "Accept the Terms",        "UnknownError": "Unknown error"
     },
     "AboutPage": {
         "h1": "About Page"
